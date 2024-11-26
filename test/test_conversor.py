@@ -1,0 +1,42 @@
+import unittest
+from src.logica.ConversorMoneda import ConversorMoneda
+
+
+class TestConversorMoneda(unittest.TestCase):
+    def setUp(self):
+        self.conversor = ConversorMoneda()
+
+    def tearDown(self):
+        self.conversor = None
+
+    def test_conversion_usd_to_eur(self):
+        self.assertAlmostEqual(self.conversor.convertir(100, 'USD', 'EUR'), 85)
+
+    def test_conversion_usd_to_jpy(self):
+        self.assertAlmostEqual(self.conversor.convertir(100, 'USD', 'JPY'), 11000)
+
+    def test_conversion_eur_to_jpy(self):
+        self.assertAlmostEqual(self.conversor.convertir(100, 'EUR', 'JPY'), 13000)
+
+    def test_misma_moneda(self):
+        self.assertEqual(self.conversor.convertir(100, 'USD', 'USD'), 100)
+
+    def test_conversion_pen_to_eur(self):
+        self.assertAlmostEqual(self.conversor.convertir(100, 'PEN', 'EUR'), 24.28513)
+
+    def test_conversion_pen_to_jpy(self):
+        self.assertAlmostEqual(self.conversor.convertir(100, 'PEN', 'JPY'), 4037.9359999999997)
+
+    def test_conversion_pen_to_usd(self):
+        self.assertAlmostEqual(self.conversor.convertir(100, 'PEN', 'USD'), 26.537517)
+
+    def test_moneda_invalida(self):
+        with self.assertRaises(ValueError):
+            self.conversor.convertir(100, 'USD', 'XYZ')
+
+    def test_monto_invalido(self):
+        with self.assertRaises(ValueError):
+            self.conversor.convertir(-100, 'USD', 'EUR')
+
+if __name__ == "__main__":
+    unittest.main()
